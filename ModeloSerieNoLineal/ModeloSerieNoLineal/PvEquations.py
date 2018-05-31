@@ -2,6 +2,31 @@
 import numpy as np
 #Define los parámetros de impresión, cantidad de decimales
 np.set_printoptions(threshold=np.nan, precision=4)
+
+#parámetos por defecto del panel
+def parametrosDefault():
+    parametros = []
+    Istc = float(5.0)
+    Gpv = float(1000)
+    Gstc = float(1000)
+    alphaI = float(0.065)
+    Tpv = float(25)
+    Tstc = float(25)
+    Impp = float(4.7)
+    Vmpp = float(18)
+    Voc = float(input(22.1))
+    alphaV = float(-80)
+    #Cálculo de ecuaciones necesarias para obtener todos los parametros de la ecuacion del panel
+    
+    Bstc = np.log(1-(Impp/Istc))/(Vmpp-Voc)
+    A01 = Istc*(np.e**(-Bstc*Voc))
+    B01 = Bstc/(1+alphaV*(Tpv-Tstc))
+    Isc1 = Istc*(Gpv/Gstc)*(1+alphaI*(Tpv-Tstc))
+    parametros.append(Isc1)
+    parametros.append(A01)
+    parametros.append(B01)
+    return parametros
+# Función por Si el usuario quiere ingresar los datos del PV
 def datosPv():
     parametros = []
     Istc = float(input("Ingrese Istc: "))
@@ -25,7 +50,8 @@ def datosPv():
     parametros.append(B01)
     return parametros
 
-def EcuacionPV(n):
+# Función para calcular los parámetros de la ecuación del Pv
+def EcuacionPv(n):
 
 #Ecuacion del panel
 #IPV = ISC −A0*(e^(B0*VPV) −1)
@@ -40,15 +66,17 @@ def EcuacionPV(n):
     # y los replica para los demas
     while True:
         equal = input("Son todos los PV iguales? S(si) - N(no) : ")
+        tipo = input("Desea agregar los valores por default para el BP585?: S(si) - N(no)")            
         if(equal == 'S' or equal == 's'):
             #obtengo los cálculos realizados en la funcion datosPV. Esta función
             #retorna arreglo con Isc, A0, B0 respectivametne
+            if tipo=="S" or tipo=="s":
             paramPv = datosPv() # [Isc, A0, B0]
             #Se asignan los mismos valores a cada IPV hasta n Pvs
             for i in range(0,n):
-                Isc[(i,0)] = paramPv[0]
-                A0[(i,i)] = paramPv[1]
-                B0[(i,i)] = paramPv[2]
+                Isc[i] = paramPv[0]
+                A0[i,i] = paramPv[1]
+                B0[i,i] = paramPv[2]
                 #Isc[(i,0)] = Istc*(Gpv/Gstc)*(1+alphaI*(Tpv-Tstc))
                 #A0[(i,0)] = Istc*(np.e**(-Bstc*Voc))
                 #B0[(i,0)] = Bstc/(1+alphaV*(Tpv-Tstc))
@@ -62,9 +90,9 @@ def EcuacionPV(n):
         elif equal=='N' or equal == 'n':
             for i in range(0,n):
                 paramPv = datosPv()
-                Isc[(i,0)] = paramPv[0]
-                A0[(i,i)] = paramPv[1]
-                B0[(i,i)] = paramPv[2]
+                Isc[i,0] = paramPv[0]
+                A0[i,i] = paramPv[1]
+                B0[i,i] = paramPv[2]
 
             Ipv = (Isc-A0*(np.e**(B0*Vpv)-1))
             #parametrosPvEqn = np.array([Isc,A0,B0],dType=float)
