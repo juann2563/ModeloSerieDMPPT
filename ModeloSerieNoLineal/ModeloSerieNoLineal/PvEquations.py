@@ -14,7 +14,7 @@ def parametrosDefault():
     Tstc = float(25)
     Impp = float(4.7)
     Vmpp = float(18)
-    Voc = float(input(22.1))
+    Voc = float(22.1)
     alphaV = float(-80)
     #Cálculo de ecuaciones necesarias para obtener todos los parametros de la ecuacion del panel
     
@@ -52,10 +52,6 @@ def datosPv():
 
 # Función para calcular los parámetros de la ecuación del Pv
 def EcuacionPv(n):
-
-#Ecuacion del panel
-#IPV = ISC −A0*(e^(B0*VPV) −1)
-
     # arreglos que van a almacenar los valores para n PVs
     Ipv = np.zeros((n,1),dtype=float) # corriente de cada pv
     Isc = np.zeros((n,1),dtype=float) # corriente de corticircuito
@@ -65,27 +61,22 @@ def EcuacionPv(n):
     # si todos los paneles son iguales solo pide los parametros para uno 
     # y los replica para los demas
     while True:
+        paramPv = 0
         equal = input("Son todos los PV iguales? S(si) - N(no) : ")
-        tipo = input("Desea agregar los valores por default para el BP585?: S(si) - N(no)")            
+        tipo = input("Desea agregar los valores por default para el BP585?: S(si) - N(no): ")            
         if(equal == 'S' or equal == 's'):
             #obtengo los cálculos realizados en la funcion datosPV. Esta función
             #retorna arreglo con Isc, A0, B0 respectivametne
             if tipo=="S" or tipo=="s":
-            paramPv = datosPv() # [Isc, A0, B0]
+                paramPv = parametrosDefault()
+            else:
+                paramPv = datosPv() # [Isc, A0, B0]
             #Se asignan los mismos valores a cada IPV hasta n Pvs
             for i in range(0,n):
                 Isc[i] = paramPv[0]
                 A0[i,i] = paramPv[1]
                 B0[i,i] = paramPv[2]
-                #Isc[(i,0)] = Istc*(Gpv/Gstc)*(1+alphaI*(Tpv-Tstc))
-                #A0[(i,0)] = Istc*(np.e**(-Bstc*Voc))
-                #B0[(i,0)] = Bstc/(1+alphaV*(Tpv-Tstc))
-        
-            #Se obtiene el arreglo resultante de multiplicar todos los
-            #arreglos con los valores de cada PV
-            Ipv = (Isc-A0*(np.e**(B0*Vpv)-1))
             # devuelve los vectores con los parametros
-            #parametrosPvEqn = np.array([Isc,A0,B0])
             return (Isc,A0,B0,Vpv)
         elif equal=='N' or equal == 'n':
             for i in range(0,n):
@@ -94,8 +85,6 @@ def EcuacionPv(n):
                 A0[i,i] = paramPv[1]
                 B0[i,i] = paramPv[2]
 
-            Ipv = (Isc-A0*(np.e**(B0*Vpv)-1))
-            #parametrosPvEqn = np.array([Isc,A0,B0],dType=float)
             return (Isc,A0,B0,Vpv)
         else:
             print("Debe ingresar un valor valido")
