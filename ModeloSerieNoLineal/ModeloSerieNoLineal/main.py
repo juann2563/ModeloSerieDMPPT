@@ -3,6 +3,6 @@ import PvEquations as pv
 import numpy as np
 n = int(input("Ingrese la cantidad de PVs: "))
 #Obtengo los valores de Isc, A0, B0 y Vpv para luego poder simular el comportamiento
-[Isc, A0, BO, Vpv] = pv.EcuacionPV(n)
+[Isc, A0, B0, Vpv] = pv.EcuacionPV(n)
 
 
