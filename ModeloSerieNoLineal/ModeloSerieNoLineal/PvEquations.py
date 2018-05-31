@@ -1,7 +1,7 @@
 #biblioteca numpy para manejo de matrices
 import numpy as np
 #Define los parámetros de impresión, cantidad de decimales
-np.set_printoptions(threshold=np.nan)
+np.set_printoptions(threshold=np.nan, precision=4)
 def datosPv():
     parametros = []
     Istc = float(input("Ingrese Istc: "))
@@ -47,8 +47,8 @@ def EcuacionPV(n):
             #Se asignan los mismos valores a cada IPV hasta n Pvs
             for i in range(0,n):
                 Isc[(i,0)] = paramPv[0]
-                A0[(i,0)] = paramPv[1]
-                B0[(i,0)] = paramPv[2]
+                A0[(i,i)] = paramPv[1]
+                B0[(i,i)] = paramPv[2]
                 #Isc[(i,0)] = Istc*(Gpv/Gstc)*(1+alphaI*(Tpv-Tstc))
                 #A0[(i,0)] = Istc*(np.e**(-Bstc*Voc))
                 #B0[(i,0)] = Bstc/(1+alphaV*(Tpv-Tstc))
@@ -57,18 +57,18 @@ def EcuacionPV(n):
             #arreglos con los valores de cada PV
             Ipv = (Isc-A0*(np.e**(B0*Vpv)-1))
             # devuelve los vectores con los parametros
-            parametrosPvEqn = np.array([Isc,A0,B0])
-            return parametrosPvEqn
+            #parametrosPvEqn = np.array([Isc,A0,B0])
+            return (Isc,A0,B0,Vpv)
         elif equal=='N' or equal == 'n':
             for i in range(0,n):
                 paramPv = datosPv()
                 Isc[(i,0)] = paramPv[0]
-                A0[(i,0)] = paramPv[1]
-                B0[(i,0)] = paramPv[2]
+                A0[(i,i)] = paramPv[1]
+                B0[(i,i)] = paramPv[2]
 
             Ipv = (Isc-A0*(np.e**(B0*Vpv)-1))
-            parametrosPvEqn = np.array([Isc,A0,B0],dType=float)
-            return parametrosPvEqn
+            #parametrosPvEqn = np.array([Isc,A0,B0],dType=float)
+            return (Isc,A0,B0,Vpv)
         else:
             print("Debe ingresar un valor valido")
 
