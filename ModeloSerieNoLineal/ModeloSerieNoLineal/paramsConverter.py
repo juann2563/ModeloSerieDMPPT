@@ -1,15 +1,15 @@
 import numpy as np
-
+#Función para obtener los parámeros del convertidor 
 def params(n):
-    Ci = np.zeros((n,1),dtype=float)
-    L = np.zeros((n,1),dtype=float)
-    Co = np.zeros((n,1),dtype=float)
-    Rci = np.zeros((n,1),dtype=float)
-    RL = np.zeros((n,1),dtype=float)
-    Rco = np.zeros((n,1),dtype=float)
-    Ron = np.zeros((n,1),dtype=float)
-    RB=69*np.exp(-3)
-    VB = float(48)
+    Ci = np.zeros((n,1),dtype=float) # Capacitorres de entrada
+    L = np.zeros((n,1),dtype=float) # Bibinas
+    Co = np.zeros((n,1),dtype=float) # Capacitores de salida
+    Rci = np.zeros((n,1),dtype=float) #Pérdidas en capacitores de entrada
+    RL = np.zeros((n,1),dtype=float) # Pérdidas en la bobina
+    Rco = np.zeros((n,1),dtype=float) # Pérdidas en capacitor de salida
+    Ron = np.zeros((n,1),dtype=float) # Pérdidas en el mosfet
+    RB=69*np.exp(-3) # Resistencia de la batería
+    VB = float(48) # voltaje de la vatería
     Rmpp = np.zeros((n,1),dtype=float)
     Vci = np.zeros((n,1),dtype=float)
     IL = np.zeros((n,1),dtype=float)
