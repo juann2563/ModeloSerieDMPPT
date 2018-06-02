@@ -64,6 +64,7 @@ def modelParams(n):
     for i in range(0,n):
         KL_n_3n_1[i,0] = (Rn[i,0]*Ro+Rco[i,0]*Ro_n[i,0]*(1-U[i,0]))/(L[i,0]*Ro)
         KL_n_3n[i,0] = ((1-U[i,0])*Ro_n[i,0])/(L[i,0]*Ro)
+        print(KL_n_3n)
     
         
 
