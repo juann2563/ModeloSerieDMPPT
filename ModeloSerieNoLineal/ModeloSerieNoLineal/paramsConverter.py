@@ -67,7 +67,7 @@ def modelParams(n):
     KL13 = (1-U[0]*Ro_n[0])/(L[0]*Ro)
     KL26 = (1-U[1]*Ro_n[1])/(L[1]*Ro)
     A11 = np.array([[0,(-1/Ci[0]),0],[(1/L[0]),-KL12,-KL13],[0,Ro_n[0]*(1-U[0])*Ko2,-Ko1]])
-    A12 = np.array([[0,0,0],[0,KL15,-KL13],[0,Ro_n[0]*(1-U[0])*Ko2,-Ko1]])
+    A12 = np.array([[0,0,0],[0,KL15,KL1],[0,Rco[1]*(1-U[1])*Ko1,-Ko1]])
     print(A11)
     for i in range(0,n):
         Ro = Ro+Rco[i] # Model output resistance
