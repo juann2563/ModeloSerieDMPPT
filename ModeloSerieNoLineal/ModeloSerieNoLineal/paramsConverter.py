@@ -1,6 +1,6 @@
 import numpy as np
 #Función para obtener los parámeros del convertidor 
-def params(n):
+def paramsConverter(n):
     Ci = np.zeros((n,1),dtype=float) # Capacitorres de entrada
     L = np.zeros((n,1),dtype=float) # Bibinas
     Co = np.zeros((n,1),dtype=float) # Capacitores de salida
@@ -19,13 +19,13 @@ def params(n):
         tipo = input("Desea aplicar los parámetros por defecto: S(si) - N(no)")
         if tipo == 'S' or tipo == 's':
             #Parámetros por defecto para el convertidor
-            Ci[:,1] = 27.7*np.exp(-6)
-            L[:,1] = 240*np.exp(-6)
-            Co[:,1] = 27.7*np.exp(-6)
-            Rci[:,1] = 6*np.exp(-3)
-            Rco[:,1] = 6*np.exp(-3)
-            RL[:,1] = 60*np.exp(-3)
-            Ron[:,1] = 35*np.exp(-3)
+            Ci[:,0] = 27.7*np.exp(-6)
+            L[:,0] = 240*np.exp(-6)
+            Co[:,0] = 27.7*np.exp(-6)
+            Rci[:,0] = 6*np.exp(-3)
+            Rco[:,0] = 6*np.exp(-3)
+            RL[:,0] = 60*np.exp(-3)
+            Ron[:,0] = 35*np.exp(-3)
             RB = 69*np.exp(-3)
             VB = float(48)
             return (Ci,L,Co,Rci,Rco,RL,Ron,RB,VB)
@@ -42,7 +42,15 @@ def params(n):
         VB = float(input("Ingrese VB: "))
         return (Ci,L,Co,Rci,Rco,RL,Ron,RB,VB)
 
-
-        
+def modelParams(n):
+    [Ci,L,Co,Rci,Rco,RL,Ron,RB,VB] = paramsConverter(n)
+    Ro = VB;
+    Ron = np.zeros((n,1),dtype=float) # Model output resistance
+    Rn = np.zeros((n,1),dtype=float) # Model input resistance
+    for i in range(0,n):
+        Ro = Ro+Rco[i,0]
+    for i in range(0,n):
+        Ron[i,0] = Ro-Rco[i,0]
+    
         
 
